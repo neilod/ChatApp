@@ -24,7 +24,7 @@ public class AuthFilter implements Filter {
         if (servletRequest instanceof HttpServletRequest) {
             User user = (User)((HttpServletRequest) servletRequest).getSession().getAttribute("user");
             if (user == null) {
-                ((HttpServletResponse)servletResponse).sendRedirect("/login.jsp?in=false");
+                ((HttpServletResponse)servletResponse).sendRedirect("/login.html?in=false");
 
             }
         }

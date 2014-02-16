@@ -37,7 +37,7 @@ public class UserServlet extends HttpServlet {
             }
             req.getSession().setAttribute("user", user);
             if (created == 1) {
-                resp.sendRedirect("/app/index.jsp");
+                resp.sendRedirect("/app/index.html");
             } else {
                 resp.sendRedirect("/register.html?oops=true");
             }

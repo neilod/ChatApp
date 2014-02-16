@@ -35,9 +35,9 @@ public class LoginServlet extends HttpServlet {
 
         if (correctPassword) {
             req.getSession().setAttribute("user", user);
-            resp.sendRedirect("/app/index.jsp");
+            resp.sendRedirect("/app/index.html");
         } else {
-            resp.sendRedirect("/login.jsp?in=false");
+            resp.sendRedirect("/login.html?in=false");
         }
     }
 }
