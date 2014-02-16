@@ -33,4 +33,9 @@ public class PersistenceService {
     public int createUser(User user) throws SQLException {
         return userDao.create(user);
     }
+
+    public void destroy() throws SQLException {
+        this.connectionSource.close();
+        this.connectionSource = null;
+    }
 }

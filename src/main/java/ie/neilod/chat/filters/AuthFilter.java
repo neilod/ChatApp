@@ -25,10 +25,10 @@ public class AuthFilter implements Filter {
             User user = (User)((HttpServletRequest) servletRequest).getSession().getAttribute("user");
             if (user == null) {
                 ((HttpServletResponse)servletResponse).sendRedirect("/login.html?in=false");
-
+            } else {
+                filterChain.doFilter(servletRequest, servletResponse);
             }
         }
-        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override

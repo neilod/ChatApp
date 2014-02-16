@@ -35,7 +35,11 @@ public class ChatAppContext implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent event) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        try {
+            this.persistenceService.destroy();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static ChatAppContext getInstance() {

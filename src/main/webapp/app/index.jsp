@@ -1,3 +1,6 @@
+<%@ page import="ie.neilod.chat.model.User" %><%
+    User user = (User)request.getSession().getAttribute("user");
+%>
 <!doctype html>
 <html>
 <head>
@@ -13,7 +16,7 @@
 <script src="http://jquery-json.googlecode.com/files/jquery.json-2.2.min.js"></script>
 <script src="http://jquery-websocket.googlecode.com/files/jquery.websocket-0.0.1.js"></script>
 <script>
-    var ws = $.websocket("ws://192.168.2.10:8080/websocket/echoProgrammatic", {
+    var ws = $.websocket("ws://192.168.2.10:8080/chat", {
         events: {
             message: function(e) { $('#content').append(e.data + '<br>') }
         }
@@ -25,7 +28,7 @@
     });
 
     ws.onopen = function(event) {
-        var username = prompt("Enter name: ");
+        var username = '<%=user.getScreenName()%>';
         if(username != null) {
             ws.send('user', username);
         }
