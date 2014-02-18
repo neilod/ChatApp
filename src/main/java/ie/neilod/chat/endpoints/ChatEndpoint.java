@@ -24,7 +24,14 @@ public class ChatEndpoint extends Endpoint {
     @Override
     public void onClose(Session session, CloseReason closeReason) {
         pusher.removeSession(session);
+        pusher.alertAll("User " + session.getUserProperties().get("name") + " left (" + closeReason + ")");
         super.onClose(session, closeReason);
+    }
+
+    @Override
+    public void onError(Session session, Throwable throwable) {
+        pusher.alertAll("Seems to have been a problem with " + session.getUserProperties().get("name") + " session. Threw the following " + throwable.getMessage());
+        super.onError(session, throwable);
     }
 
     private static class ChatMessageHandler implements MessageHandler.Whole<String> {

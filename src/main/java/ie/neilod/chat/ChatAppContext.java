@@ -15,6 +15,7 @@ import java.sql.SQLException;
  */
 public class ChatAppContext implements ServletContextListener {
 
+    private DBConfig dbConfig;
     private PersistenceService persistenceService;
     private PasswordService passwordService;
 
@@ -22,8 +23,9 @@ public class ChatAppContext implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
+        dbConfig = new DBConfig();
         try {
-            this.persistenceService = new PersistenceService();
+            this.persistenceService = new PersistenceService(dbConfig);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("Could not initialise persistence service!");

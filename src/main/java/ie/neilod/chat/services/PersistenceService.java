@@ -2,9 +2,10 @@ package ie.neilod.chat.services;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
-import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
+import ie.neilod.chat.DBConfig;
 import ie.neilod.chat.model.User;
 
 import java.sql.SQLException;
@@ -15,12 +16,15 @@ import java.sql.SQLException;
  * TIME: 20:47
  */
 public class PersistenceService {
+    private static final long MINUTE_MILLIS = 60*1000;
 
     private Dao<User, String> userDao;
-    private ConnectionSource connectionSource;
+    private JdbcPooledConnectionSource connectionSource;
 
-    public PersistenceService() throws SQLException {
-        this.connectionSource = new JdbcConnectionSource("jdbc:mysql://localhost:3306/chatz", "root", "");
+    public PersistenceService(DBConfig dbConfig) throws SQLException {
+        this.connectionSource = new JdbcPooledConnectionSource(dbConfig.getDBUrl(), dbConfig.getDBUser(), dbConfig.getDBPassword());
+        this.connectionSource.setMaxConnectionsFree(5);
+        this.connectionSource.setCheckConnectionsEveryMillis(MINUTE_MILLIS);
         this.userDao = DaoManager.createDao(connectionSource, User.class);
     }
 
